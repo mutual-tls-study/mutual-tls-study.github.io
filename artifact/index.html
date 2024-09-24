@@ -80,7 +80,12 @@
                 <div class="docs-toc large order-lg-2 order-md-0 order-xs-1 col-12 col-lg-2 col-xl-2 position-sticky border-left"><div class="docs-toc">
 	<nav id="TableOfContents">
   <ul>
-    <li><a href="#tbd">TBD</a></li>
+    <li><a href="#datasets">Datasets</a></li>
+    <li><a href="#analysis-code">Analysis code</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 </div>
@@ -102,7 +107,63 @@
     We provide the code used for conducting the privacy analysis presented in Section 6 of the paper.
 </p>
 
-<h2 id="tbd">TBD</h2>
+<h2 id="datasets">Datasets</h2>
+<p>Unfortunately, we are unable to provide the raw network traffic data due to their sensitive nature.</p>
+<h2 id="analysis-code">Analysis code</h2>
+<h4 id="prerequisites">Prerequisites</h4>
+<ul>
+<li><strong>CCADB</strong>: We used CCADB to determine whether certificate authorities are listed as the Common Name (CN) or Subject Alternative Name (SAN).
+<ul>
+<li>All Certificate Information (root and intermediate) in CCADB - <a href="https://ccadb.my.salesforce-sites.com/ccadb/AllCertificateRecordsCSVFormatv2">CSV</a></li>
+</ul>
+</li>
+<li><strong>Spacy pretrained pipeline</strong>: We employed spaCy’s pre-trained model for Named Entity Recognition (NER), which categorizes text into labels such as &lsquo;PERSON&rsquo;, &lsquo;ORG&rsquo;, &lsquo;PRODUCT&rsquo;, and &lsquo;DATE&rsquo;.
+<ul>
+<li>spaCy <a href="https://spacy.io/models/en">en_core_web_trf</a>; Specifically, we used version <a href="https://github.com/explosion/spacy-models/releases/tag/en_core_web_trf-3.7.3">en_core_web_trf-3.7.3</a></li>
+</ul>
+</li>
+<li><strong>Company name datasets</strong>: We utilized publicly available company name lists from Kaggle to further classify entries that were not recognized by the spaCy NER model.
+<ul>
+<li>BigPicture 2023 Q4 Free Company Dataset - <a href="https://www.kaggle.com/datasets/mfrye0/bigpicture-company-dataset">17M+ Company Dataset</a></li>
+<li>People Data Labs 2019 Global Company Dataset - <a href="https://www.kaggle.com/datasets/peopledatalabssf/free-7-million-company-dataset">7+ Million Company Dataset</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="code">Code</h4>
+<ul>
+<li>
+<p>analysis_code.py (<a href="files/analysis_code.py">download</a>)</p>
+<p>Due to the same privacy concerns as with the datasets, we do not provide the exact original code used for our paper. Some parameters and functions have been adjusted accordingly.</p>
+</li>
+</ul>
+<h4 id="how-to-run">How to run?</h4>
+<ol>
+<li>
+<p>Download the prerequisites and the code.</p>
+</li>
+<li>
+<p>Set the paths for the prerequisite files:</p>
+<pre tabindex="0"><code>SPACY_NER_PATH = &#34;/path/to/en_core_web_trf-3.7.3/&#34;
+CCADB_PATH = &#34;/path/to/AllCertificateRecordsReport.csv&#34;
+COMPANY_DATA1_PATH = &#34;/path/to/companies-2023-q4-sm.csv&#34;
+COMPANY_DATA2_PATH = &#34;/path/to/companies_sorted.csv&#34;
+</code></pre></li>
+<li>
+<p>Set the paths for intermediate files (used to save some intermediate results and reduce future running time):</p>
+<pre tabindex="0"><code>COMPANY_SIM_SEED_PATH = &#34;/path/to/company_sim_seed.csv&#34; #Can be any name, but in CSV format 
+NER_SEED_PATH = &#34;/path/to/ner_seed.csv&#34; #Can be any name, but in CSV format
+</code></pre></li>
+<li>
+<p>Load datasets as Pandas dataframe</p>
+<pre tabindex="0"><code>def load_certificate_data():
+    path = &#34;/path/to/certificate_dataset&#34; #we do not provide the raw data due to privacy concerns
+    # df = load data from path # load the data using pandas
+    return df
+</code></pre></li>
+<li>
+<p>Run the script.</p>
+</li>
+</ol>
 <!--
 ## Table of contents
 
